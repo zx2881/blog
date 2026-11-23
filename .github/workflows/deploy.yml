@@ -34,12 +34,12 @@ jobs:
 
       # 1. 为 GitHub Pages 打包并部署（带 /blog/ 子路径）
       - name: Build for GitHub Pages
-        run: npx vitepress build --base=/blog/
+        run: npx vitepress build docs --base=/blog/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .vitepress/dist
+          path: docs/.vitepress/dist
 
       - name: Deploy to GitHub Pages
         id: deployment
@@ -47,7 +47,7 @@ jobs:
 
       # 2. 为 Ubuntu 服务器重新打包并上传（根目录 /）
       - name: Build for VPS
-        run: npx vitepress build --base=/
+        run: npx vitepress build docs --base=/
 
       - name: Deploy to VPS via SCP
         uses: appleboy/scp-action@v0.1.7
