@@ -3,7 +3,7 @@ name: Build and Deploy VitePress
 on:
   push:
     branches:
-      - main # 如果你的默认分支叫 master，请改成 master
+      - main
 
 permissions:
   contents: read
@@ -18,43 +18,44 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. 拉取仓库代码
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2. 安装 Node.js 并启用 npm 缓存
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      # 3. 安装依赖并打包 VitePress
-      - name: Install & Build
-        run: |
-          npm ci
-          npm run docs:build
+      - name: Install dependencies
+        run: npm ci
 
-      # 4. 部署到 GitHub Pages
+      # 1. 为 GitHub Pages 打包并部署（带 /blog/ 子路径）
+      - name: Build for GitHub Pages
+        run: npx vitepress build --base=/blog/
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vitepress/dist # 如果你的文档在 docs 文件夹下，请改为 docs/.vitepress/dist
+          path: .vitepress/dist
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-      # 5. 自动同步上传到你的 Ubuntu 服务器 Nginx 目录
+      # 2. 为 Ubuntu 服务器重新打包并上传（根目录 /）
+      - name: Build for VPS
+        run: npx vitepress build --base=/
+
       - name: Deploy to VPS via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "docs/.vitepress/dist/*" # 若在 docs 下，改为 "docs/.vitepress/dist/*"
+          source: ".vitepress/dist/*"
           target: "/var/www/vitepress/"
-          strip_components: 3 # 若在 docs 下，改为 3
+          strip_components: 2
           rm: true
