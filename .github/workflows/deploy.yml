@@ -57,5 +57,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: ".vitepress/dist/*"
           target: "/var/www/vitepress/"
-          strip_components: 2
+          strip_components: 3
           rm: true
