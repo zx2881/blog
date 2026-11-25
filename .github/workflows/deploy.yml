@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,11 +16,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  # 1. 为 GitHub Pages 打包并上传产物（带 /blog/ 子路径）
+  build-pages:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,7 +34,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 1. 为 GitHub Pages 打包并部署（带 /blog/ 子路径）
       - name: Build for GitHub Pages
         run: npx vitepress build docs --base=/blog/
 
@@ -44,11 +42,36 @@ jobs:
         with:
           path: docs/.vitepress/dist
 
+  # 2. 独立部署到 GitHub Pages（拆分 job 避免同 job 刚上传就查不到 artifact 的竞态）
+  deploy-pages:
+    needs: build-pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-      # 2. 为 Ubuntu 服务器重新打包并上传（根目录 /）
+  # 3. 独立为 Ubuntu VPS 打包并通过原生 OpenSSH 部署（根目录 /）
+  deploy-vps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Build for VPS
         run: npx vitepress build docs --base=/
 
