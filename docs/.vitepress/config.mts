@@ -52,8 +52,9 @@ export default defineConfig({
           collapsed: false, // false 表示默认展开，true 表示默认折叠
           items: [
             { text: '1. 绪论与基本概念', link: '/database/' }, // 对应 docs/database/index.md
-            { text: '2. 关系数据库', link: '/database/第二章.md' }, // 对应 docs/database/relational.md
-            { text: '3. SQL 语言详解', link: '/database/第三章.md' }
+            { text: '2. 关系数据库', link: '/database/第二章.md' }, 
+            { text: '3. SQL 语言详解', link: '/database/第三章.md' },
+            { text: '6.关系数据理论' , link: '/database/第六章.md' }
           ]
         }
       ]
