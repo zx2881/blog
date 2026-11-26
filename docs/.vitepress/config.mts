@@ -39,7 +39,7 @@ export default defineConfig({
       { text: '课程',
         items:[
           { text: '数据库原理', link: '/database/'},
-          { text: 'python', link: '/'}
+          { text: '数据结构', link: '/data_structure/'},
         ]
       },
       { text: '个人简介', link: '/jianjieshi' }
@@ -55,6 +55,15 @@ export default defineConfig({
             { text: '2. 关系数据库', link: '/database/第二章.md' }, 
             { text: '3. SQL 语言详解', link: '/database/第三章.md' },
             { text: '6.关系数据理论' , link: '/database/第六章.md' }
+          ]
+        }
+      ],
+      '/data_structure/': [
+        {
+          text: '数据结构',
+          collapsed:false,
+          items:[
+            { text: '树', link: '/data_structure/树.md/' },
           ]
         }
       ]

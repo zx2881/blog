@@ -4,22 +4,23 @@ layout: home
 
 hero:
   name: "zx2881博客"
-  text: "a tech blog of zx2881"
-  tagline: My great project tagline
+  text: "本科学习记录"
+#  tagline: 
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: 个人简介
+      link: /jianjieshi
+#    - theme: alt
+#      text: API Examples
+#      link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 数据结构
+    details: 依据教材《数据结构》严蔚敏 清华大学出版社第二版
+    link: '/data_structure/'
+  - title: 数据库系统概论
+    details: 依据教材《数据库系统概论》第5版
+    link: '/database/'
+
 ---
 
