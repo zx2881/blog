@@ -63,7 +63,8 @@ export default defineConfig({
           text: '数据结构',
           collapsed:false,
           items:[
-            { text: '树', link: '/data_structure/树.md/' },
+            { text: '首页', link: '/data_structure/' },
+            { text: '树', link: '/data_structure/树.md' },
           ]
         }
       ]
