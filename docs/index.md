@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "zx2881博客"
   text: "本科学习记录"
-#  tagline: 
+  tagline: 本站立足于美利坚合众国，立志服务全球华人 
   actions:
     - theme: brand
       text: 个人简介
